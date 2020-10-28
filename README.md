@@ -1,2 +1,2 @@
 # SortAlgosKt
-Common sort algorithms in kotlin implementation.
+Common sort algorithms with kotlin implementation.
