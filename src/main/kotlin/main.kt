@@ -1,8 +1,9 @@
 @file:JvmName("Main")
 
 fun main() {
-    val input = intArrayOf()
+    val input = intArrayOf(3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48)
     bubbleSort(input)
+    println(input.toList())
 }
 
 /**
@@ -14,7 +15,7 @@ fun main() {
 fun bubbleSort(nums: IntArray) {
     if (nums.size < 2) return
     //i表示第几趟排序
-    for (i in nums.indices) {
+    for (i in 0 until nums.lastIndex - 1) {
         //j表示这趟排序遍历的索引位置
         for (j in 0 until nums.lastIndex - i) {
             if (nums[j] > nums[j + 1]) {
