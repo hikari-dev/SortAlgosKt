@@ -2,8 +2,17 @@
 
 fun main() {
     val input = intArrayOf(3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48)
-    bubbleSort(input)
+    selectionSort(input)
     println(input.toList())
+}
+
+/**
+ * 交换数组里位于i和j索引的两个数
+ */
+fun swap(nums: IntArray, i: Int, j: Int) {
+    val temp = nums[i]
+    nums[i] = nums[j]
+    nums[j] = temp
 }
 
 /**
@@ -26,10 +35,22 @@ fun bubbleSort(nums: IntArray) {
 }
 
 /**
- * 交换数组里位于i和j索引的两个数
+ * 选择排序
+ * 排序思想：每一趟遍历，将一个最小的数移到序列起始位置。
+ * 时间复杂度：O(n^2)
+ * 空间复杂度：O(1)
  */
-fun swap(nums: IntArray, i: Int, j: Int) {
-    val temp = nums[i]
-    nums[i] = nums[j]
-    nums[j] = temp
+fun selectionSort(nums: IntArray) {
+    if (nums.size < 2) return
+    //i表示第几趟排序
+    for (i in 0 until nums.lastIndex) {
+        var minIndex = i//minIndex表示每趟排序最小值的索引
+        //j表示这趟排序遍历的索引位置
+        for (j in i + 1..nums.lastIndex) {
+            if (nums[j] < nums[minIndex]) {
+                minIndex = j
+            }
+        }
+        swap(nums, i, minIndex)
+    }
 }
