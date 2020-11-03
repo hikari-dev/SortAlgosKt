@@ -2,7 +2,7 @@
 
 fun main() {
     val input = intArrayOf(3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48)
-    selectionSort(input)
+    insertionSort(input)
     println(input.toList())
 }
 
@@ -52,5 +52,24 @@ fun selectionSort(nums: IntArray) {
             }
         }
         swap(nums, i, minIndex)
+    }
+}
+
+/**
+ * 插入排序
+ * 排序思想：每一趟遍历，将当前遍历的数插入到已经排好序的序列中的对应位置
+ * 时间复杂度：O(n^2)
+ * 空间复杂度：O(1)
+ */
+fun insertionSort(nums: IntArray) {
+    if (nums.size < 2) return
+    for (i in 1..nums.lastIndex) {
+        for (j in i downTo 1) {
+            if (nums[j] < nums[j - 1]) {
+                swap(nums, j, j - 1)
+            } else {
+                break
+            }
+        }
     }
 }
