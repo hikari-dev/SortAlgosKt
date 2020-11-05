@@ -2,8 +2,7 @@
 
 fun main() {
     val input = intArrayOf(3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48)
-    insertionSort(input)
-    println(input.toList())
+    println((mergeSort(input).toList()))
 }
 
 /**
@@ -63,7 +62,9 @@ fun selectionSort(nums: IntArray) {
  */
 fun insertionSort(nums: IntArray) {
     if (nums.size < 2) return
+    //i表示第几趟排序
     for (i in 1..nums.lastIndex) {
+        //j表示当前元素每次和有序队列的元素进行比较后的索引
         for (j in i downTo 1) {
             if (nums[j] < nums[j - 1]) {
                 swap(nums, j, j - 1)
@@ -72,4 +73,45 @@ fun insertionSort(nums: IntArray) {
             }
         }
     }
+}
+
+/**
+ * 归并排序
+ * 排序思想：每一趟遍历，将当前遍历的数插入到已经排好序的序列中的对应位置
+ * 时间复杂度：O(nlogn)
+ * 空间复杂度：O(n)
+ */
+fun mergeSort(nums: IntArray): IntArray {
+    if (nums.size < 2) return nums
+    val mid = nums.size / 2
+    val leftArr = nums.copyOfRange(0, mid)
+    val rightArr = nums.copyOfRange(mid, nums.lastIndex + 1)
+    return merge(mergeSort(leftArr), mergeSort(rightArr))
+}
+
+
+fun merge(nums1: IntArray, nums2: IntArray): IntArray {
+    val ans = IntArray(nums1.size + nums2.size)
+    //《算法导论》里使用的是哨兵法，给每个数组的最后加上大小为正无穷的哨兵元素，可以省去每次检查是否有数组遍历到头了。
+    // 此处使用的双指针法，也具有相同的遍历效果
+    var i = 0
+    var j = 0
+    while (i <= nums1.lastIndex && j <= nums2.lastIndex) {
+        if (nums1[i] <= nums2[j]) {
+            ans[i + j] = nums1[i]
+            i++
+        } else {
+            ans[i + j] = nums2[j]
+            j++
+        }
+    }
+    while (i <= nums1.lastIndex) {
+        ans[i + j] = nums1[i]
+        i++
+    }
+    while (j <= nums2.lastIndex) {
+        ans[i + j] = nums2[j]
+        j++
+    }
+    return ans
 }
