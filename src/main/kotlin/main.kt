@@ -1,8 +1,9 @@
 @file:JvmName("Main")
 
 fun main() {
-    val input = intArrayOf(3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48)
-    println((mergeSort(input).toList()))
+    val input = intArrayOf(8, 1, 2, 4, 5, 6, 7)
+    quickSort(input)
+    input.forEach { print("$it ") }
 }
 
 /**
@@ -77,7 +78,7 @@ fun insertionSort(nums: IntArray) {
 
 /**
  * 归并排序
- * 排序思想：每一趟遍历，将当前遍历的数插入到已经排好序的序列中的对应位置
+ * 排序思想：分治
  * 时间复杂度：O(nlogn)
  * 空间复杂度：O(n)
  */
@@ -88,7 +89,6 @@ fun mergeSort(nums: IntArray): IntArray {
     val rightArr = nums.copyOfRange(mid, nums.lastIndex + 1)
     return merge(mergeSort(leftArr), mergeSort(rightArr))
 }
-
 
 fun merge(nums1: IntArray, nums2: IntArray): IntArray {
     val ans = IntArray(nums1.size + nums2.size)
@@ -114,4 +114,33 @@ fun merge(nums1: IntArray, nums2: IntArray): IntArray {
         j++
     }
     return ans
+}
+
+/**
+ * 快速排序
+ */
+fun quickSort(nums: IntArray) {
+    if (nums.size < 2) return
+    quickSortImpl(nums, 0, nums.lastIndex)
+}
+
+fun quickSortImpl(nums: IntArray, l: Int, r: Int) {
+    if (l < r) {
+        val partition = partition(nums, l, r)
+        quickSortImpl(nums, l, partition)
+        quickSortImpl(nums, partition + 1, r)
+    }
+}
+
+fun partition(nums: IntArray, l: Int, r: Int): Int {
+    val pivot = nums[l]
+    var i = l
+    for (j in l..r) {
+        if (pivot > nums[j]) {
+            i++
+            swap(nums, i, j)
+        }
+    }
+    swap(nums, l, i)
+    return i
 }
