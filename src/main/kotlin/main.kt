@@ -1,5 +1,7 @@
 @file:JvmName("Main")
 
+import kotlin.random.Random
+
 fun main() {
     val input = intArrayOf(8, 1, 2, 4, 5, 6, 7)
     quickSort(input)
@@ -126,7 +128,7 @@ fun quickSort(nums: IntArray) {
 
 fun quickSortImpl(nums: IntArray, l: Int, r: Int) {
     if (l < r) {
-        val partition = partition(nums, l, r)
+        val partition = randPartition(nums, l, r)
         quickSortImpl(nums, l, partition)
         quickSortImpl(nums, partition + 1, r)
     }
@@ -143,4 +145,10 @@ fun partition(nums: IntArray, l: Int, r: Int): Int {
     }
     swap(nums, l, i)
     return i
+}
+
+fun randPartition(nums: IntArray, l: Int, r: Int): Int {
+    val randIndex = Random.nextInt(l, r + 1)
+    swap(nums, randIndex, l)
+    return partition(nums, l, r)
 }
