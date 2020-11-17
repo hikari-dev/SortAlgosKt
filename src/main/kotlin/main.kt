@@ -3,9 +3,9 @@
 import kotlin.random.Random
 
 fun main() {
-    val input = intArrayOf(8, 1, 2, 4, 5, 6, 7)
-    quickSort(input)
-    input.forEach { print("$it ") }
+    val input = intArrayOf(8, 1, 2, 6, 4, 5, 11, 6, 7)
+    val ans = countingSort(input)
+    ans.forEach { print("$it ") }
 }
 
 /**
@@ -151,4 +151,32 @@ fun randPartition(nums: IntArray, l: Int, r: Int): Int {
     val randIndex = Random.nextInt(l, r + 1)
     swap(nums, randIndex, l)
     return partition(nums, l, r)
+}
+
+/**
+ * 计数排序
+ */
+fun countingSort(nums: IntArray): IntArray {
+    if (nums.size < 2) return nums
+    //获得数组最大值
+    var max = Int.MIN_VALUE
+    for (num in nums) {
+        max = Math.max(num, max)
+    }
+    //分别统计(0..max)在数组中出现的次数
+    val arr = IntArray(max + 1)
+    for (num in nums) {
+        arr[num] += 1
+    }
+    //通过累加，计算对于每一个元素，数组中有多少个元素是小于或者等于该元素的
+    for (i in 1..arr.lastIndex) {
+        arr[i] += arr[i - 1]
+    }
+    val ans = IntArray(nums.size)
+    //倒序遍历数组，根据上面得到的arr，把每个元素放到相应的位置
+    for (i in nums.lastIndex downTo 0) {
+        ans[arr[nums[i]] - 1] = nums[i]
+        arr[nums[i]] -= 1
+    }
+    return ans
 }
